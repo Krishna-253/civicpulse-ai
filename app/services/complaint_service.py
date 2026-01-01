@@ -1,18 +1,17 @@
-from datetime import datetime
+from sqlalchemy.orm import Session
+from app.models.complaint_db import Complaint
 
-complaints_db = []
-
-def create_complaint(data):
-    complaint = {
-        "id": len(complaints_db) + 1,
-        "title": data.title,
-        "description": data.description,
-        "ward": data.ward,
-        "status": "Open",
-        "created_at": datetime.utcnow()
-    }
-    complaints_db.append(complaint)
+def create_complaint(db: Session, data):
+    complaint = Complaint(
+        title=data.title,
+        description=data.description,
+        ward=data.ward,
+        status="Open"
+    )
+    db.add(complaint)
+    db.commit()
+    db.refresh(complaint)
     return complaint
 
-def list_complaints():
-    return complaints_db
+def list_complaints(db: Session):
+    return db.query(Complaint).all()
