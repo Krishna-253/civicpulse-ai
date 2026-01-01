@@ -12,4 +12,8 @@ class ComplaintResponse(BaseModel):
     description: str
     ward: str
     status: str
+    severity: str
     created_at: datetime
+
+    class Config:
+        from_attributes = True
