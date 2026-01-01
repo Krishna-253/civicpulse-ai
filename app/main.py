@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.complaints import router as complaints_router
+from app.api.risk import router as risk_router
 from app.core.database import engine, Base
 
 app = FastAPI(title="CivicPulse AI")
@@ -7,6 +8,7 @@ app = FastAPI(title="CivicPulse AI")
 Base.metadata.create_all(bind=engine)
 
 app.include_router(complaints_router)
+app.include_router(risk_router)
 
 @app.get("/")
 def root():
